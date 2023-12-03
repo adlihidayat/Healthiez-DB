@@ -144,40 +144,46 @@ const InputForm = () => {
           placeholder="Rating"
         />
       </div>
-      <input
-        className="custom-input"
-        type="text"
-        value={inputImg}
-        onChange={(e: any) => setInputImg(e.target.value)}
-        placeholder="Img url from pexels"
-      />
-      {inputImg && (
-        <Image
-          width={100}
-          height={100}
-          src={inputImg}
-          alt="image error"
-          className=" w-[100%] h-60 object-cover rounded-xl"
-        />
-      )}
-      <input
-        className="custom-input"
-        type="text"
-        value={inputVideo}
-        onChange={(e: any) => setVideo(e.target.value)}
-        placeholder="Youtube link"
-      />
-      {inputVideo !== "" && (
-        <iframe
-          className=" rounded-lg w-[100%] h-[220px] bg-black overflow-hidden"
-          width="100"
-          height="100"
-          src={inputVideoUrl}
-          onError={() =>
-            setInputVideoUrl("https://www.youtube.com/embed/0jtx2hUCxfMa")
-          }
-        />
-      )}
+      <div className=" md:flex md:space-x-5">
+        <div className=" w-full">
+          <input
+            className="w-full px-4 py-[10px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom"
+            type="text"
+            value={inputImg}
+            onChange={(e: any) => setInputImg(e.target.value)}
+            placeholder="img from pexels"
+          />
+          {inputImg && (
+            <Image
+              width={100}
+              height={100}
+              src={inputImg}
+              alt="image error"
+              className=" w-[100%] h-60 object-cover rounded-xl mt-5"
+            />
+          )}
+        </div>
+        <div className=" w-full mt-5 md:mt-0">
+          <input
+            className="w-full px-4 py-[10px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom "
+            type="text"
+            value={inputVideo}
+            onChange={(e: any) => setVideo(e.target.value)}
+            placeholder="youtube video url "
+          />
+          {inputVideo !== "" && (
+            <iframe
+              className=" rounded-lg w-[100%] h-[220px] bg-black overflow-hidden mt-5"
+              width="100"
+              height="100"
+              src={inputVideoUrl}
+              onError={() =>
+                setInputVideoUrl("https://www.youtube.com/embed/0jtx2hUCxfMa")
+              }
+            />
+          )}
+        </div>
+      </div>
       <textarea
         className="custom-input"
         value={inputItem}
