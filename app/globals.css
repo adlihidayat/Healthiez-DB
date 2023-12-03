@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  body {
+    @apply bg-[#000000];
+  }
+  .custom-input {
+    @apply px-4 py-[10px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom;
+  }
+  .custom-dropdown {
+    @apply outline-none focus:shadow-custom text-[#eeeeee] w-[50%] border border-[#474747] bg-[#0b0b0b] py-2 px-3 rounded-md;
+  }
+}
+@layer utilities {
+  .shadow-custom {
+    box-shadow: 1px 1px 13px 1px rgba(255, 255, 255, 0.21);
+    -webkit-box-shadow: 1px 1px 13px 1px rgba(255, 255, 255, 0.21);
+    -moz-box-shadow: 1px 1px 13px 1px rgba(255, 255, 255, 0.21);
+  }
+}

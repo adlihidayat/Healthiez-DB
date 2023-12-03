@@ -10,7 +10,7 @@ const CardContainer = () => {
     const getFoods = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:3000/api/food", {
+        const res = await fetch("/api/food", {
           method: "GET",
           headers: {
             "cache-control": "max-age=0",

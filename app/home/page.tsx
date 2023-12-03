@@ -1,30 +1,15 @@
 import CardContainer from "@/components/CardContainer";
-// const getFood = async () => {
-//   try {
-//     const res = await fetch("http://localhost:3000/api/food", {
-//       method: "GET",
-//       headers: {
-//         "cache-control": "max-age=0",
-//       },
-//       cache: "no-cache",
-//     });
-//     if (!res.ok) {
-//       throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
-//     }
-//     const json = await res.json();
-//     return json;
-//   } catch (error: any) {
-//     console.error(error.message);
-//     return null;
-//   }
-// };
+import Nav from "@/components/Nav";
 
 const page = () => {
   // console.log(foods);
   return (
-    <main className=" mt-40 bg-slate-200 p-10">
-      <CardContainer />
-    </main>
+    <div className="flex flex-col items-center w-full space-y-5">
+      <Nav />
+      <main className="w-[100%] max-w-[425px] pt-28 xl:pt-32 px-5 grid grid-cols-1 lg:grid-cols-2 lg:max-w-[900px] 2xl:grid-cols-3 2xl:max-w-[1245px]">
+        <CardContainer />
+      </main>
+    </div>
   );
 };
 

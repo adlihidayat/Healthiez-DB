@@ -56,15 +56,24 @@ async function Page({ params }: any) {
   const type = await getType();
   const country = await getCountry();
 
+  // console.log(type);
+
   return (
-    <main className=" pb-20  w-full  p-5 flex flex-col items-center space-y-5">
-      <Link
-        href={"/home"}
-        className="fixed left-10 top-10 bg-slate-300 rounded-full"
-      >
-        back
-      </Link>
-      <h1 className=" text-xl font-semibold">input food data</h1>
+    <main className=" pb-20  w-full flex flex-col items-center space-y-5">
+      <div className=" w-full px-[10%] pt-10 pb-5 border-b border-[#474747] bg-[#0b0b0b] md:flex items-center md:space-x-5">
+        <Link
+          href={"/home"}
+          className=" bg-white text-black px-2 py-1 rounded text-xs font-semibold h-max"
+        >
+          Back
+        </Link>
+        <div>
+          <h1 className="text-3xl font-medium text-left mt-5 text-white">
+            Editing {food.name} Data
+          </h1>
+          <p className=" text-[#969696]">Editing a data to database</p>
+        </div>
+      </div>
       <EditForm food={food} country={country} type={type} />
     </main>
   );

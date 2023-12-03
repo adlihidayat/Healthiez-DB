@@ -32,7 +32,7 @@ function SignIn() {
   return (
     <form
       onSubmit={submitForm}
-      className="bg-[#383737] rounded-lg text-white mx-auto my-auto flex flex-col py-14 px-10 text-center"
+      className="border border-[#474747] bg-[#0a0a0a] rounded-lg text-white mx-auto my-auto flex flex-col py-14 px-10 text-center"
     >
       <div className="mb-10">
         <h1 className=" font-bold text-xl">LOGIN</h1>
@@ -54,7 +54,7 @@ function SignIn() {
       </div>
       <button
         type="submit"
-        className=" bg-[#396bb5] hover:bg-[#2f5895] duration-300 py-2 rounded-md font-medium text-sm mb-5"
+        className=" bg-white text-black hover:bg-[#ababab] duration-300 py-2 rounded-md font-medium text-sm mb-5"
       >
         Submit
       </button>

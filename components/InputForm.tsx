@@ -4,12 +4,16 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-const OptionList = (data: any) => {
+const OptionList = ({ data, title }: any) => {
   return (
     <>
-      <option value={""}>none</option>
-      {data.data?.map((e: any) => (
-        <option value={e.id} key={e.id}>
+      <option value={""}>{title}</option>
+      {data?.map((e: any) => (
+        <option
+          value={e.id}
+          key={e.id}
+          className=" bg-transparent after:bg-gray-700"
+        >
           {e.name}
         </option>
       ))}
@@ -68,48 +72,48 @@ const InputForm = ({ type, country }: any) => {
   return (
     <form
       onSubmit={submit}
-      className="  flex flex-col space-y-5 bg-slate-200 rounded-lg p-5"
+      className=" w-full px-10 flex flex-col space-y-5 rounded-lg py-5 max-w-4xl"
     >
       <input
-        className=" px-2 py-1"
+        className="custom-input"
         type="text"
         value={inputName}
         onChange={(e: any) => setInputName(e.target.value)}
-        placeholder="input title"
+        placeholder="Input title"
       />
-      <div className=" flex space-x-3">
-        <label htmlFor="type">Choose Type:</label>
-        <select
-          name="type"
-          id="type"
-          onChange={(e) => setInputType(e.target.value)}
-        >
-          <OptionList data={type} />
-        </select>
-      </div>
-      <div className=" flex space-x-3">
-        <label htmlFor="country">Choose country:</label>
-        <select
-          name="country"
-          id="country"
-          onChange={(e) => setInputCountry(e.target.value)}
-        >
-          <OptionList data={country} />
-        </select>
+      <div className="flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-3">
+        <div className=" flex space-x-3 w-full">
+          <select
+            name="type"
+            id="type"
+            onChange={(e) => setInputType(e.target.value)}
+            className="custom-dropdown h-max"
+          >
+            <OptionList data={type} title={"Type"} />
+          </select>
+          <select
+            name="country"
+            id="country"
+            onChange={(e) => setInputCountry(e.target.value)}
+            className="custom-dropdown h-max"
+          >
+            <OptionList data={country} title={"Country"} />
+          </select>
+        </div>
+        <input
+          className="w-full md:w-28 px-4 py-[7px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom"
+          type="text"
+          value={inputRating}
+          onChange={(e: any) => setInputRating(e.target.value)}
+          placeholder="Rating"
+        />
       </div>
       <input
-        className=" px-2 py-1"
-        type="text"
-        value={inputRating}
-        onChange={(e: any) => setInputRating(e.target.value)}
-        placeholder="input rating"
-      />
-      <input
-        className=" px-2 py-1"
+        className="custom-input"
         type="text"
         value={inputImg}
         onChange={(e: any) => setInputImg(e.target.value)}
-        placeholder="img url from pexels"
+        placeholder="Img url from pexels"
       />
       {inputImg && (
         <Image
@@ -117,19 +121,19 @@ const InputForm = ({ type, country }: any) => {
           height={100}
           src={inputImg}
           alt="image error"
-          className=" w-[260px] h-60 object-cover rounded-xl"
+          className=" w-[100%] h-60 object-cover rounded-xl"
         />
       )}
       <input
-        className=" px-2 py-1"
+        className="custom-input"
         type="text"
         value={inputVideo}
         onChange={(e: any) => setVideo(e.target.value)}
-        placeholder="input youtube link"
+        placeholder="Youtube link"
       />
       {inputVideo !== "" && (
         <iframe
-          className=" rounded-lg w-[260px] h-[150px] bg-black overflow-hidden"
+          className=" rounded-lg w-[100%] h-[220px] bg-black overflow-hidden"
           width="100"
           height="100"
           src={inputVideoUrl}
@@ -139,36 +143,36 @@ const InputForm = ({ type, country }: any) => {
         />
       )}
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputItem}
         onChange={(e: any) => setInputItem(e.target.value)}
         cols={30}
         rows={3}
-        placeholder="input ingredient"
+        placeholder="Food ingredient"
       />
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputAdditionalItem}
         onChange={(e: any) => setInputAdditionalItem(e.target.value)}
         cols={30}
         rows={2}
-        placeholder="input additional ingredient"
+        placeholder="Additional ingredient (no a must)"
       />
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputDesc}
         onChange={(e: any) => setInputDesc(e.target.value)}
         cols={30}
         rows={5}
-        placeholder="input description"
+        placeholder="Food description"
       />
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputHowToCook}
         onChange={(e: any) => setInputHowToCook(e.target.value)}
         cols={30}
         rows={5}
-        placeholder="input how to cook"
+        placeholder="How to cook"
       />
       <button
         type="submit"
@@ -183,9 +187,9 @@ const InputForm = ({ type, country }: any) => {
           inputHowToCook === "" ||
           inputVideo === ""
         }
-        className="bg-black px-5 py-1.5 text-sm w-max rounded-full text-white disabled:opacity-50"
+        className=" px-4 py-1 font-medium w-max rounded text-black bg-white disabled:opacity-50"
       >
-        submit
+        Submit
       </button>
     </form>
   );

@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const OptionList = ({ data, prevData }: any) => {
-  //   console.log(data);
   return (
     <>
-      <option value={prevData.id}>{prevData.name}</option>
       {data?.map((e: any) => (
         <option value={e.id} key={e.id}>
           {e.name}
@@ -30,8 +28,6 @@ const EditForm = ({ food, country, type }: any) => {
   const [inputHowToCook, setInputHowToCook] = useState("");
   const [inputVideo, setInputVideo] = useState("");
   const [inputVideoUrl, setInputVideoUrl] = useState("");
-
-  console.log(food);
 
   //   console.log(inputImg ? "true" : "false");
   const submit = async (e: any) => {
@@ -90,78 +86,86 @@ const EditForm = ({ food, country, type }: any) => {
   return (
     <form
       onSubmit={submit}
-      className="  flex flex-col space-y-5 bg-slate-200 rounded-lg p-5"
+      className=" w-full px-10 flex flex-col space-y-5 rounded-lg py-5 max-w-4xl text-white"
     >
       <input
-        className=" px-2 py-1"
+        className="custom-input"
         type="text"
         value={inputName}
         onChange={(e: any) => setInputName(e.target.value)}
         placeholder={food.name}
       />
-      <div className=" flex space-x-3">
-        <label htmlFor="type">Choose Type:</label>
-        <select
-          name="type"
-          id="type"
-          onChange={(e) => setInputType(e.target.value)}
-        >
-          <OptionList data={type} prevData={food.type} />
-        </select>
-      </div>
-      <div className=" flex space-x-3">
-        <label htmlFor="country">Choose country:</label>
-        <select
-          name="country"
-          id="country"
-          onChange={(e) => setInputCountry(e.target.value)}
-        >
-          <OptionList data={country} prevData={food.country} />
-        </select>
-      </div>
-      <input
-        className=" px-2 py-1"
-        type="text"
-        value={inputRating}
-        onChange={(e: any) => setInputRating(e.target.value)}
-        placeholder={food.rating}
-      />
-      <input
-        className=" px-2 py-1"
-        type="text"
-        value={inputImg}
-        onChange={(e: any) => setInputImg(e.target.value)}
-        placeholder={food.img}
-      />
-      {inputImg && (
-        <Image
-          src={inputImg}
-          alt="image error"
-          height={100}
-          width={100}
-          className=" w-[260px] h-60 object-cover rounded-xl"
+      <div className="flex flex-col md:flex-row items-center space-y-5 md:space-y-0 md:space-x-3">
+        <div className=" flex space-x-3 w-full">
+          <select
+            value={inputType ? inputType : food.typeId}
+            name="type"
+            id="type"
+            onChange={(e) => setInputType(e.target.value)}
+            className="custom-dropdown h-max"
+          >
+            <OptionList data={type} />
+          </select>
+          <select
+            value={inputCountry ? inputCountry : food.countryId}
+            name="country"
+            id="country"
+            onChange={(e) => setInputCountry(e.target.value)}
+            className="custom-dropdown h-max"
+          >
+            <OptionList data={country} />
+          </select>
+        </div>
+        <input
+          className="w-full md:w-28 px-4 py-[7px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom"
+          type="text"
+          value={inputRating}
+          onChange={(e: any) => setInputRating(e.target.value)}
+          placeholder={food.rating}
         />
-      )}
-      <input
-        className=" px-2 py-1"
-        type="text"
-        value={inputVideo}
-        onChange={(e: any) => setVideo(e.target.value)}
-        placeholder={food.video}
-      />
-      {inputVideo !== "" && (
-        <iframe
-          className=" rounded-lg w-[260px] h-[150px] bg-black overflow-hidden"
-          width="100"
-          height="100"
-          src={inputVideoUrl}
-          onError={() =>
-            setInputVideoUrl("https://www.youtube.com/embed/0jtx2hUCxfMa")
-          }
-        />
-      )}
+      </div>
+      <div className=" md:flex md:space-x-5">
+        <div className=" w-full">
+          <input
+            className="w-full px-4 py-[10px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom"
+            type="text"
+            value={inputImg}
+            onChange={(e: any) => setInputImg(e.target.value)}
+            placeholder={food.img}
+          />
+          {inputImg && (
+            <Image
+              width={100}
+              height={100}
+              src={inputImg}
+              alt="image error"
+              className=" w-[100%] h-60 object-cover rounded-xl mt-5"
+            />
+          )}
+        </div>
+        <div className=" w-full mt-5 md:mt-0">
+          <input
+            className="w-full px-4 py-[10px] rounded-md border border-[#474747] bg-[#0b0b0b] outline-none focus:shadow-custom "
+            type="text"
+            value={inputVideo}
+            onChange={(e: any) => setVideo(e.target.value)}
+            placeholder={food.video}
+          />
+          {inputVideo !== "" && (
+            <iframe
+              className=" rounded-lg w-[100%] h-[220px] bg-black overflow-hidden mt-5"
+              width="100"
+              height="100"
+              src={inputVideoUrl}
+              onError={() =>
+                setInputVideoUrl("https://www.youtube.com/embed/0jtx2hUCxfMa")
+              }
+            />
+          )}
+        </div>
+      </div>
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputDesc}
         onChange={(e: any) => setInputDesc(e.target.value)}
         cols={30}
@@ -169,7 +173,7 @@ const EditForm = ({ food, country, type }: any) => {
         placeholder={food.desc}
       />
       <textarea
-        className=" px-2 py-1"
+        className="custom-input"
         value={inputHowToCook}
         onChange={(e: any) => setInputHowToCook(e.target.value)}
         cols={30}
@@ -179,15 +183,15 @@ const EditForm = ({ food, country, type }: any) => {
       <div>
         <button
           onClick={Delete}
-          className="bg-red-500 mr-2 px-5 py-1.5 text-sm w-max rounded-full text-white disabled:opacity-50"
+          className="mr-3 px-4 py-1 font-medium w-max rounded text-white bg-red-500 disabled:opacity-50"
         >
           Delete
         </button>
         <button
           type="submit"
-          className="bg-black px-5 py-1.5 text-sm w-max rounded-full text-white"
+          className=" px-4 py-1 font-medium w-max rounded text-black bg-white disabled:opacity-50"
         >
-          submit
+          Submit
         </button>
       </div>
     </form>
