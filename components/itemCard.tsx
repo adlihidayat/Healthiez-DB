@@ -13,7 +13,7 @@ const ItemCard = ({ data }: any) => {
         </p>
       </div>
       <Link
-        className="bg-blue-600 text-sm sm:text-xs rounded px-3 py-[3px]"
+        className="bg-blue-600 hover:bg-blue-700 duration-300 text-sm sm:text-xs rounded px-3 py-[3px]"
         href={`/edit/${data.id}`}
       >
         Edit

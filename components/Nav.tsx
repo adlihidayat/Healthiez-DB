@@ -8,7 +8,7 @@ const Nav = () => {
       <button>
         <Link
           href={"/create"}
-          className=" bg-white text-black py-[6px] px-4 text-sm font-medium rounded"
+          className=" bg-white hover:bg-gray-300 duration-300 text-black py-[6px] px-4 text-sm font-medium rounded"
         >
           Create
         </Link>

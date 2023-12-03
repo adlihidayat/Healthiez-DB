@@ -16,8 +16,21 @@ const OptionList = ({ data, prevData }: any) => {
   );
 };
 
-const EditForm = ({ food, country, type }: any) => {
+const EditForm = ({ id }: any) => {
   const router = useRouter();
+  const [food, setFood] = useState({
+    name: "",
+    img: "",
+    typeId: 0,
+    countryId: 0,
+    rating: "0",
+    desc: "",
+    howToCook: "",
+    video: "",
+  });
+  const [country, setCountry] = useState("");
+  const [type, setType] = useState("");
+  const [loading, setLoading] = useState(true);
   const [inputName, setInputName] = useState("");
   const [inputImg, setInputImg] = useState("");
   const [inputType, setInputType] = useState("");
@@ -29,27 +42,61 @@ const EditForm = ({ food, country, type }: any) => {
   const [inputVideo, setInputVideo] = useState("");
   const [inputVideoUrl, setInputVideoUrl] = useState("");
 
-  //   console.log(inputImg ? "true" : "false");
+  useEffect(() => {
+    const getOption = async () => {
+      try {
+        const food = await fetch(`/api/food/${id}`);
+        const type = await fetch("/api/type");
+        const country = await fetch("/api/country");
+        if (!food.ok) {
+          throw new Error(
+            `Failed to fetch data: ${food.status} ${food.statusText}`
+          );
+        }
+        if (!type.ok) {
+          throw new Error(
+            `Failed to fetch data: ${type.status} ${type.statusText}`
+          );
+        }
+        if (!country.ok) {
+          throw new Error(
+            `Failed to fetch data: ${country.status} ${country.statusText}`
+          );
+        }
+        const json1 = await food.json();
+        const json2 = await type.json();
+        const json3 = await country.json();
+        setFood(json1);
+        setType(json2);
+        setCountry(json3);
+        setLoading(false);
+      } catch (error: any) {
+        console.error(error.message);
+        return null;
+      }
+    };
+    getOption();
+  }, []);
+
+  console.log(food);
+
   const submit = async (e: any) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/food/${food.id}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify({
-            name: inputName ? inputName : food.name,
-            img: inputImg ? inputImg : food.img,
-            typeId: inputType ? Number(inputType) : food.typeId,
-            countryId: inputCountry ? Number(inputCountry) : food.countryId,
-            rating: inputRating ? inputRating : food.rating,
-            desc: inputDesc ? inputDesc : food.desc,
-            howToCook: inputHowToCook ? inputHowToCook : food.howToCook,
-            video: inputVideo ? inputVideo : food.video,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/food/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          name: inputName ? inputName : food.name,
+          img: inputImg ? inputImg : food.img,
+          typeId: inputType ? Number(inputType) : food.typeId,
+          countryId: inputCountry ? Number(inputCountry) : food.countryId,
+          rating: inputRating ? inputRating : food.rating,
+          desc: inputDesc ? inputDesc : food.desc,
+          howToCook: inputHowToCook ? inputHowToCook : food.howToCook,
+          video: inputVideo ? inputVideo : food.video,
+        }),
+      });
 
       if (response.ok) {
         router.push("/home");
@@ -58,22 +105,22 @@ const EditForm = ({ food, country, type }: any) => {
       console.log(error);
     }
   };
+
   const Delete = async (e: any) => {
-    e.preventDefault();
+    if (loading) {
+      e.preventDefault();
 
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/food/${food.id}`,
-        {
+      try {
+        const response = await fetch(`http://localhost:3000/api/food/${id}`, {
           method: "DELETE",
-        }
-      );
+        });
 
-      if (response.ok) {
-        router.push("/home");
+        if (response.ok) {
+          router.push("/home");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -83,7 +130,9 @@ const EditForm = ({ food, country, type }: any) => {
     setInputVideoUrl(embed[0] + "/embed/" + embed[1]);
   };
 
-  return (
+  return loading ? (
+    <p className=" text-white pt-40">loading...</p>
+  ) : (
     <form
       onSubmit={submit}
       className=" w-full px-10 flex flex-col space-y-5 rounded-lg py-5 max-w-4xl text-white"
@@ -183,13 +232,13 @@ const EditForm = ({ food, country, type }: any) => {
       <div>
         <button
           onClick={Delete}
-          className="mr-3 px-4 py-1 font-medium w-max rounded text-white bg-red-500 disabled:opacity-50"
+          className="mr-3 px-4 py-1 font-medium w-max rounded text-white bg-red-500 hover:bg-red-600 duration-300 disabled:opacity-50"
         >
           Delete
         </button>
         <button
           type="submit"
-          className=" px-4 py-1 font-medium w-max rounded text-black bg-white disabled:opacity-50"
+          className=" px-4 py-1 font-medium w-max rounded text-black bg-white hover:bg-gray-300 duration-300 disabled:opacity-50"
         >
           Submit
         </button>

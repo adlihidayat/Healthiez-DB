@@ -4,25 +4,33 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-const OptionList = ({ data, title }: any) => {
+const OptionList = ({ data, title, loading }: any) => {
+  console.log(data);
   return (
     <>
       <option value={""}>{title}</option>
-      {data?.map((e: any) => (
-        <option
-          value={e.id}
-          key={e.id}
-          className=" bg-transparent after:bg-gray-700"
-        >
-          {e.name}
-        </option>
-      ))}
+      {loading ? (
+        <option>loading</option>
+      ) : (
+        data.map((e: any) => (
+          <option
+            value={e.id}
+            key={e.id}
+            className=" bg-transparent after:bg-gray-700"
+          >
+            {e.name}
+          </option>
+        ))
+      )}
     </>
   );
 };
 
-const InputForm = ({ type, country }: any) => {
+const InputForm = () => {
   const router = useRouter();
+  const [country, setCountry] = useState("");
+  const [type, setType] = useState("");
+  const [loading, setLoading] = useState(true);
   const [inputName, setInputName] = useState("");
   const [inputImg, setInputImg] = useState("");
   const [inputType, setInputType] = useState("");
@@ -34,6 +42,34 @@ const InputForm = ({ type, country }: any) => {
   const [inputHowToCook, setInputHowToCook] = useState("");
   const [inputVideo, setInputVideo] = useState("");
   const [inputVideoUrl, setInputVideoUrl] = useState("");
+
+  useEffect(() => {
+    const getOption = async () => {
+      try {
+        const res1 = await fetch("/api/type");
+        const res2 = await fetch("/api/country");
+        if (!res1.ok) {
+          throw new Error(
+            `Failed to fetch data: ${res1.status} ${res1.statusText}`
+          );
+        }
+        if (!res2.ok) {
+          throw new Error(
+            `Failed to fetch data: ${res2.status} ${res2.statusText}`
+          );
+        }
+        const json1 = await res1.json();
+        const json2 = await res2.json();
+        setType(json1);
+        setCountry(json2);
+        setLoading(false);
+      } catch (error: any) {
+        console.error(error.message);
+        return null;
+      }
+    };
+    getOption();
+  }, []);
 
   const submit = async (e: any) => {
     e.preventDefault();
@@ -89,7 +125,7 @@ const InputForm = ({ type, country }: any) => {
             onChange={(e) => setInputType(e.target.value)}
             className="custom-dropdown h-max"
           >
-            <OptionList data={type} title={"Type"} />
+            <OptionList data={type} title={"Type"} loading={loading} />
           </select>
           <select
             name="country"
@@ -97,7 +133,7 @@ const InputForm = ({ type, country }: any) => {
             onChange={(e) => setInputCountry(e.target.value)}
             className="custom-dropdown h-max"
           >
-            <OptionList data={country} title={"Country"} />
+            <OptionList data={country} title={"Country"} loading={loading} />
           </select>
         </div>
         <input
@@ -187,7 +223,7 @@ const InputForm = ({ type, country }: any) => {
           inputHowToCook === "" ||
           inputVideo === ""
         }
-        className=" px-4 py-1 font-medium w-max rounded text-black bg-white disabled:opacity-50"
+        className=" px-4 py-1 font-medium w-max rounded text-black bg-white hover:bg-gray-300 duration-300 disabled:opacity-50"
       >
         Submit
       </button>
