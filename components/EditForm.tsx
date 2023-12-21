@@ -84,7 +84,7 @@ const EditForm = ({ id }: any) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/api/food/${id}`, {
+      const response = await fetch(`/api/food/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
           name: inputName ? inputName : food.name,
@@ -111,7 +111,7 @@ const EditForm = ({ id }: any) => {
       e.preventDefault();
 
       try {
-        const response = await fetch(`http://localhost:3000/api/food/${id}`, {
+        const response = await fetch(`/api/food/${id}`, {
           method: "DELETE",
         });
 
