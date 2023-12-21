@@ -78,8 +78,7 @@ const EditForm = ({ id }: any) => {
     getOption();
   }, []);
 
-  console.log(food);
-
+  console.log(id);
   const submit = async (e: any) => {
     e.preventDefault();
 
@@ -107,7 +106,7 @@ const EditForm = ({ id }: any) => {
   };
 
   const Delete = async (e: any) => {
-    if (loading) {
+    if (!loading) {
       e.preventDefault();
 
       try {
